@@ -21,7 +21,6 @@ public class Key128Test {
 
     @Test
     public void eq() {
-
         Key128 first = new Key128("10");
         Key128 second = new Key128("10");
         assertTrue(first.eq(first));
