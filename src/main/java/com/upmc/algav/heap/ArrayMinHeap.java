@@ -7,91 +7,106 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+public class ArrayMinHeap implements MinHeap<Key128> {
 
-public class ArrayMinHeap implements MinHeap<Key128, Integer> {
-    private List<Key128> values = new ArrayList<>();
+    private ArrayMinHeapImpl<Key128> arrayMinHeap;
 
     public ArrayMinHeap(Collection<Key128> values) {
+        arrayMinHeap = new ArrayMinHeapImpl<>();
         build(values);
     }
 
     @Override
-    public Integer left(Integer i) {
-        return i * 2 + 1;
-    }
-
-    public Integer right(Integer i) {
-        return i * 2 + 2;
-    }
-
-    public Integer parent(Integer i) {
-        return (i - 1) / 2;
-    }
-
-    @Override
-    public Key128 get(Integer i) {
-        return i < values.size() ? values.get(i) : null;
-    }
-
-    @Override
-    public void swap(Integer first, Integer second) {
-        Collections.swap(values, first, second);
-    }
-
-    @Override
     public boolean empty() {
-        return values.size() == 0;
+        return arrayMinHeap.values.size() == 0;
     }
 
     @Override
     public Key128 deleteMin() {
         if (empty())
             return null;
-        if (values.size() == 1) {
-            Key128 key128 = get(0);
-            values.remove(0);
+        if (arrayMinHeap.values.size() == 1) {
+            Key128 key128 = arrayMinHeap.get(0);
+            arrayMinHeap.values.remove(0);
             return key128;
         }
-        return MinHeap.deleteMin(this,
+        return Heapable.deleteMin(arrayMinHeap,
                 () -> {
-                    swap(root(), values.size() - 1);
-                    values.remove(values.size() - 1);
+                    arrayMinHeap.swap(arrayMinHeap.root(), arrayMinHeap.values.size() - 1);
+                    arrayMinHeap.values.remove(arrayMinHeap.values.size() - 1);
                 });
     }
 
     @Override
     public void insert(Key128 key) {
-        values.add(key);
-        MinHeap.minHeapifyUp(this, last(),
+        arrayMinHeap.values.add(key);
+        Heapable.heapifyUp(arrayMinHeap, arrayMinHeap.last(),
                 i -> i > 0, Key128::less);
     }
 
 
     @Override
-    public Integer root() {
-        return 0;
-    }
-
-    @Override
-    public Integer last() {
-        return values.size() - 1;
-    }
-
-    @Override
     public Collection<Key128> elements() {
-        return values;
+        return arrayMinHeap.values;
     }
 
     @Override
-    public Heap<Key128, Integer> union(Heap<Key128, Integer> other) {
+    public Heap<Key128> union(Heap<Key128> other) {
         List<Key128> all = new ArrayList<>();
-        all.addAll(values);
+        all.addAll(arrayMinHeap.values);
         all.addAll(other.elements());
         return new ArrayMinHeap(all);
     }
 
+    ArrayMinHeapImpl<Key128> getArrayMinHeap() {
+        return arrayMinHeap;
+    }
+
     @Override
     public String toString() {
-        return values.toString();
+        return arrayMinHeap.values.toString();
+    }
+
+    private static class ArrayMinHeapImpl<T extends Comparable<T>> implements Heapable<T, Integer> {
+        private List<T> values = new ArrayList<>();
+
+
+        @Override
+        public Integer left(Integer i) {
+            return i * 2 + 1;
+        }
+
+        public Integer right(Integer i) {
+            return i * 2 + 2;
+        }
+
+        public Integer parent(Integer i) {
+            return (i - 1) / 2;
+        }
+
+        @Override
+        public T get(Integer i) {
+            return i < values.size() ? values.get(i) : null;
+        }
+
+        @Override
+        public void swap(Integer first, Integer second) {
+            Collections.swap(values, first, second);
+        }
+
+        @Override
+        public Integer root() {
+            return 0;
+        }
+
+        @Override
+        public Integer last() {
+            return values.size() - 1;
+        }
+
+        @Override
+        public Collection<T> elements() {
+            return values;
+        }
     }
 }

@@ -3,6 +3,9 @@ package com.upmc.algav.tree;
 public interface IBinarySearchTree<T> extends IBinaryTree<T> {
     IBinaryTreeNode<T> search(T key);
 
+    void delete(IBinaryTreeNode<T> node);
+
+
     default IBinaryTreeNode<T> min() {
         return min(root());
     }

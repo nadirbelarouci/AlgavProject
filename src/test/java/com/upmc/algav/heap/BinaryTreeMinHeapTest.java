@@ -1,7 +1,6 @@
 package com.upmc.algav.heap;
 
 import com.upmc.algav.key.Key128;
-import com.upmc.algav.tree.IBinaryTreeNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,14 +12,14 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertTrue;
 
 public class BinaryTreeMinHeapTest {
-    private MinHeap<Key128, IBinaryTreeNode<Key128>> minHeap;
+    private BinaryTreeMinHeap minHeap;
 
-    private static void checkMinHeapProperty(MinHeap<Key128, IBinaryTreeNode<Key128>> minHeap, IBinaryTreeNode<Key128> root) {
+    private static void checkMinHeapProperty(Heapable<Key128, IBinaryTreeHeapNode<Key128>> minHeap, IBinaryTreeHeapNode<Key128> root) {
         if (root != null) {
             assertTrue(minHeap.get(root).less(minHeap.get(minHeap.left(root))));
             assertTrue(minHeap.get(root).less(minHeap.get(minHeap.right(root))));
-            checkMinHeapProperty(minHeap, root.left());
-            checkMinHeapProperty(minHeap, root.right());
+            checkMinHeapProperty(minHeap, (IBinaryTreeHeapNode<Key128>) root.left());
+            checkMinHeapProperty(minHeap, (IBinaryTreeHeapNode<Key128>) root.right());
         }
 
     }
@@ -37,13 +36,13 @@ public class BinaryTreeMinHeapTest {
 
     @Test
     public void deleteMin() {
-        MinHeapTest.deleteMinTest(minHeap, () -> checkMinHeapProperty(minHeap, minHeap.root()));
+        MinHeapTest.deleteMinTest(minHeap);
 
     }
 
     @Test
     public void build() {
-        checkMinHeapProperty(minHeap, minHeap.root());
+        checkMinHeapProperty(minHeap.getTree(), minHeap.getTree().root());
     }
 
     @Test
@@ -53,6 +52,6 @@ public class BinaryTreeMinHeapTest {
                 .map(Key128::new)
                 .collect(Collectors.toList());
         BinaryTreeMinHeap union = (BinaryTreeMinHeap) minHeap.union(new BinaryTreeMinHeap(otherList));
-        checkMinHeapProperty(minHeap, minHeap.root());
+        checkMinHeapProperty(union.getTree(), union.getTree().root());
     }
 }

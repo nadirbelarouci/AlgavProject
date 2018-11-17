@@ -2,24 +2,11 @@ package com.upmc.algav.heap;
 
 import java.util.Collection;
 
-public interface Heap<T, R> {
-    R left(R r);
-
-    R right(R r);
-
-    R parent(R r);
-
-    R root();
-
-    R last();
-
-    T get(R r);
+public interface Heap<T> {
 
     boolean empty();
 
     Collection<T> elements();
-
-    void swap(R first, R second);
 
     void insert(T key);
 
@@ -27,6 +14,6 @@ public interface Heap<T, R> {
         elements.forEach(this::insert);
     }
 
-    Heap<T, R> union(Heap<T, R> other);
+    Heap<T> union(Heap<T> other);
 
 }

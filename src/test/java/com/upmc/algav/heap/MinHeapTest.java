@@ -21,7 +21,7 @@ public class MinHeapTest {
             .map(Key128::new)
             .collect(Collectors.toList());
 
-    public static void deleteMinTest(MinHeap<Key128, ?> minHeap, Runnable heapProperty) {
+    public static void deleteMinTest(MinHeap<Key128> minHeap) {
         Stream.of("10", "15", "30", "40", "40", "50", "100").map(Key128::new)
                 .forEach(key -> {
                     assertEquals(key, minHeap.deleteMin());

@@ -13,9 +13,9 @@ import static org.junit.Assert.assertTrue;
 
 public class ArrayMinHeapTest {
 
-    private MinHeap<Key128, Integer> minHeap;
+    private ArrayMinHeap minHeap;
 
-    private static void checkMinHeapProperty(MinHeap<Key128, Integer> minHeap) {
+    private static void checkMinHeapProperty(Heapable<Key128, Integer> minHeap) {
         for (int i = 0; i < minHeap.elements().size(); i++) {
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.left(i))));
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.right(i))));
@@ -37,12 +37,12 @@ public class ArrayMinHeapTest {
 
     @Test
     public void deleteMin() {
-        MinHeapTest.deleteMinTest(minHeap, () -> checkMinHeapProperty(minHeap));
+        MinHeapTest.deleteMinTest(minHeap);
     }
 
     @Test
     public void build() {
-        checkMinHeapProperty(minHeap);
+        checkMinHeapProperty(minHeap.getArrayMinHeap());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ArrayMinHeapTest {
                 .collect(Collectors.toList());
         ArrayMinHeap union = (ArrayMinHeap) minHeap.union(new ArrayMinHeap(otherList));
 
-        checkMinHeapProperty(minHeap);
+        checkMinHeapProperty(union.getArrayMinHeap());
 
 
     }
