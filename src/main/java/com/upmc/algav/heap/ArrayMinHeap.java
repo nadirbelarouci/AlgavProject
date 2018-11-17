@@ -89,4 +89,9 @@ public class ArrayMinHeap implements MinHeap<Key128, Integer> {
         all.addAll(other.elements());
         return new ArrayMinHeap(all);
     }
+
+    @Override
+    public String toString() {
+        return values.toString();
+    }
 }

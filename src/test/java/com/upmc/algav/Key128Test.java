@@ -12,7 +12,7 @@ public class Key128Test {
 
 
     @Test
-    public void less() throws Exception {
+    public void less() {
         Key128 first = new Key128("10");
         Key128 second = new Key128("5");
         assertFalse(first.less(second));

@@ -21,16 +21,14 @@ public class MinHeapTest {
             .map(Key128::new)
             .collect(Collectors.toList());
 
-    public static void deleteMinTest(MinHeap<Key128, ?> minHeap) {
+    public static void deleteMinTest(MinHeap<Key128, ?> minHeap, Runnable heapProperty) {
+        Stream.of("10", "15", "30", "40", "40", "50", "100").map(Key128::new)
+                .forEach(key -> {
+                    assertEquals(key, minHeap.deleteMin());
+                    System.out.println(minHeap);
+//                    heapProperty.run();
+                });
 
-
-        assertEquals(new Key128("10"), minHeap.deleteMin());
-        assertEquals(new Key128("15"), minHeap.deleteMin());
-        assertEquals(new Key128("30"), minHeap.deleteMin());
-        assertEquals(new Key128("40"), minHeap.deleteMin());
-        assertEquals(new Key128("40"), minHeap.deleteMin());
-        assertEquals(new Key128("50"), minHeap.deleteMin());
-        assertEquals(new Key128("100"), minHeap.deleteMin());
         assertTrue(minHeap.empty());
         assertNull(minHeap.deleteMin());
     }

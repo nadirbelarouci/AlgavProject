@@ -37,7 +37,7 @@ public class ArrayMinHeapTest {
 
     @Test
     public void deleteMin() {
-        MinHeapTest.deleteMinTest(minHeap);
+        MinHeapTest.deleteMinTest(minHeap, () -> checkMinHeapProperty(minHeap));
     }
 
     @Test
