@@ -63,7 +63,9 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> imp
         IBinaryTreeNode<T> x = root();
         while (x != null) {
             p = x;
-            if (z.key().compareTo(x.key()) < 0)
+            if (z.key().compareTo(x.key()) == 0)
+                return;
+            else if (z.key().compareTo(x.key()) < 0)
                 x = x.left();
             else
                 x = x.right();
@@ -75,7 +77,6 @@ public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> imp
             p.left(z);
         else
             p.right(z);
-
     }
 
     @Override

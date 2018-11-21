@@ -2,6 +2,7 @@ package com.upmc.algav.hash;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class MD5Test {
 
     @Test
     public void hash() {
+        System.out.println(new BigInteger("5d41402abc4b2a76b9719d911017c592",16).bitLength());
         Map<String, String> hashes = new HashMap<>();
         hashes.put("hello", "5d41402abc4b2a76b9719d911017c592");
         hashes.put("This is amazing", "4ed2db06d6acbc4e33c412a275421253");

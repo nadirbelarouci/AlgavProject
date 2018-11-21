@@ -72,18 +72,19 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
                 .collect(Collectors.joining(", "));
     }
 
-     BinaryTreeMinHeapImpl<Key128> getTree() {
+    BinaryTreeMinHeapImpl<Key128> getTree() {
         return tree;
     }
 
-     static class BinaryTreeMinHeapImpl<T extends Comparable<T>>
+    static class BinaryTreeMinHeapImpl<T extends Comparable<T>>
             extends BinaryTree<T> implements Heapable<T, IBinaryTreeHeapNode<T>> {
 
         private IBinaryTreeHeapNode<T> nextToInsert;
         private IBinaryTreeHeapNode<T> last;
         private int size;
 
-        private static <T> BinaryTreeHeapNode<T> get(IBinaryTreeNode<T> root, int index) {
+        private BinaryTreeHeapNode<T> get(int index) {
+            IBinaryTreeNode<T> p = root();
             Stack<Integer> path = new Stack<>();
             while (index != 0) {
                 path.push(index);
@@ -92,9 +93,9 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
 
             while (!path.empty()) {
                 int i = path.pop();
-                root = i % 2 == 0 ? root.right() : root.left();
+                p = i % 2 == 0 ? p.right() : p.left();
             }
-            return (BinaryTreeHeapNode<T>) root;
+            return (BinaryTreeHeapNode<T>) p;
         }
 
         @Override
@@ -151,7 +152,7 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
                 nextToInsert.right(new NodeBuilder<>(key, nextToInsert.index() * 2 + 2)
                         .setParent(nextToInsert)
                         .createNode());
-                return get(root(), nextToInsert.index() + 1);
+                return get(nextToInsert.index() + 1);
             }
         }
 
@@ -173,7 +174,7 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
 
         private void detachLast() {
             if (last.detach()) {
-                last = get(root(), last.index() - 1);
+                last = get(last.index() - 1);
                 size--;
             }
         }
