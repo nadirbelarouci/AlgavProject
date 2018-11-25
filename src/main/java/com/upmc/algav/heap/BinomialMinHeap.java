@@ -8,6 +8,7 @@
 
 package com.upmc.algav.heap;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -29,7 +30,7 @@ import java.util.NoSuchElementException;
  *
  * @author Tristan Claverie
  */
-public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T> {
+public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
     private final Comparator<T> comp;    //Comparator over the keys
     private Node head;                    //head of the list of roots
 
@@ -57,7 +58,7 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T> {
      *
      * @param a an array of keys
      */
-    public BinomialMinHeap(T[] a) {
+    public BinomialMinHeap(Collection<T> a) {
         comp = new MyComparator();
         for (T k : a) insert(k);
     }

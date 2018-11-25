@@ -44,6 +44,13 @@ public class ArrayMinHeap implements MinHeap<Key128> {
                 i -> i > 0, Key128::less);
     }
 
+//    @Override
+//    public void build(Collection<Key128> elements) {
+//        arrayMinHeap.values.addAll(elements);
+//        for (int i = elements.size() / 2; i >= 0; i--) {
+//            Heapable.heapifyDown(arrayMinHeap, i, Heapable.min(arrayMinHeap));
+//        }
+//    }
 
     @Override
     public Collection<Key128> elements() {

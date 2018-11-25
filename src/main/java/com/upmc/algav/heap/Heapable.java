@@ -9,6 +9,7 @@ interface Heapable<T, R> {
     static <T extends Comparable<T>, R> R min(Heapable<T, R> heap, R i, R j) {
         T first = heap.get(i);
         T second = heap.get(j);
+
         return first.compareTo(second) < 0 ? i : j;
 
     }
@@ -16,6 +17,10 @@ interface Heapable<T, R> {
     static <T extends Comparable<T>, R> T deleteMin(Heapable<T, R> heap, Runnable swapAndRemoveLast) {
         Function<R, R> smallest = i -> min(heap, min(heap, i, heap.left(i)), heap.right(i));
         return delete(heap, swapAndRemoveLast, smallest);
+    }
+
+    static <T extends Comparable<T>, R> Function<R, R> min(Heapable<T, R> heap) {
+        return i -> min(heap, min(heap, i, heap.left(i)), heap.right(i));
     }
 
     static <T extends Comparable<T>, R> T delete(Heapable<T, R> heap, Runnable swapAndRemoveLast, Function<R, R> best) {

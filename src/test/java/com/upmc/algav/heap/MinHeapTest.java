@@ -1,37 +1,53 @@
 package com.upmc.algav.heap;
 
 import com.upmc.algav.key.Key128;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-        ArrayMinHeapTest.class,
-        BinaryTreeMinHeapTest.class
-})
-public class MinHeapTest {
-    static List<Key128> list = Stream.of(50, 100, 40, 30, 10, 15, 40)
-            .map(String::valueOf)
-            .map(Key128::new)
-            .collect(Collectors.toList());
+@RunWith(Parameterized.class)
+public abstract class MinHeapTest {
+    protected List<Key128> keys;
+    protected MinHeap<Key128> heap;
+    protected List<Key128> sortedKeys;
 
-    public static void deleteMinTest(MinHeap<Key128> minHeap) {
-        Stream.of("10", "15", "30", "40", "40", "50", "100").map(Key128::new)
-                .forEach(key -> {
-                    assertEquals(key, minHeap.deleteMin());
-                    System.out.println(minHeap);
-//                    heapProperty.run();
-                });
-
-        assertTrue(minHeap.empty());
-        assertNull(minHeap.deleteMin());
+    public MinHeapTest(Path path) throws IOException {
+        super();
+        keys = Files.lines(path)
+                .map(s -> s.startsWith("0x") ? s.substring(2) : s)
+                .map(Key128::new)
+                .collect(Collectors.toList());
+        sortedKeys = new ArrayList<>(keys);
+        sortedKeys.sort(Comparator.naturalOrder());
     }
 
+    @Parameters(name = "{0}")
+    public static Collection<Path> getPath() throws Exception {
+        return Files.list(Paths.get(ArrayMinHeapTest.class.getResource("/cles_alea").toURI()))
+                .filter(f -> !f.toFile().isHidden())
+                .map(f -> f.normalize())
+                .collect(Collectors.toList());
+    }
 
+    @Test
+    public void deleteMin() {
+        sortedKeys.forEach(key -> assertEquals(key, heap.deleteMin()));
+        assertTrue(heap.empty());
+        assertNull(heap.deleteMin());
+    }
 }
