@@ -3,7 +3,6 @@ package com.upmc.algav.experiment;
 import com.upmc.algav.key.Key128;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -15,11 +14,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
+
+import static java.util.stream.Collectors.*;
 
 public class Main extends Application {
 
@@ -35,73 +32,113 @@ public class Main extends Application {
                     .filter(key -> key.startsWith("0x"))
                     .map(key -> key.substring(2))
                     .map(Key128::new)
-                    .collect(Collectors.toList());
+                    .collect(toList());
 
         } catch (IOException e) {
             return new ArrayList<>();
         }
     }
 
-    private static Duration doExperiment(List<Path> paths, String heap) {
-        return paths.stream()
-                .map(Main::getKeys)
+    private static Duration doExperiment(Set<List<Key128>> allKeys, String heap) {
+        return allKeys.stream()
                 .map(keys -> ExperimentalStudy.doBuildExperiment(keys, heap))
                 .reduce(Duration.ZERO, Duration::plus)
-                .dividedBy(paths.size());
+                .dividedBy(allKeys.size());
     }
 
+
     public static void main(String... args) throws Exception {
-
-
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Line Chart Sample");
-        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Size");
-        yAxis.setLabel("Running Time (nano)");
+        yAxis.setLabel("Running Time (Miliss)");
 
-        final LineChart<String, Number> lineChart =
-                new LineChart<>(xAxis, yAxis);
+        final LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
 
         lineChart.setTitle("Running time for build heap");
 
-        XYChart.Series<String, Number> arrayMinHeap = new XYChart.Series<>();
+        XYChart.Series<Number, Number> arrayMinHeap = new XYChart.Series<>();
         arrayMinHeap.setName("ArrayMinHeap");
-        XYChart.Series<String, Number> binaryTreeMinHeap = new XYChart.Series<>();
+        XYChart.Series<Number, Number> binaryTreeMinHeap = new XYChart.Series<>();
         binaryTreeMinHeap.setName("BinaryTreeMinHeap");
-        XYChart.Series<String, Number> javaAPI = new XYChart.Series<>();
-        javaAPI.setName("BinomialMinHeap");
-        Map<String, List<Path>> fileGroups = Files.list(Paths.get(Main.class.getResource("/cles_alea").toURI()))
+        XYChart.Series<Number, Number> javaAPI = new XYChart.Series<>();
+        javaAPI.setName("Java PriorityQueue");
+
+        Map<String, Set<List<Key128>>> fileGroups = Files.list(Paths.get(Main.class.getResource("/cles_alea").toURI()))
                 .filter(f -> !f.toFile().isHidden())
-                .collect(Collectors.groupingBy(Main::groupPath));
+                .collect(groupingBy(Main::groupPath, mapping(Main::getKeys, toSet())));
+
+
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "ArrayMinHeap")))
+                .forEach(p -> System.out.print(""));
+
+
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "BinaryTreeMinHeap")))
+                .forEach(p -> System.out.print(""));
+
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "JavaAPI")))
+                .forEach(p -> System.out.print(""));
+
+        System.out.println();
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(Integer.valueOf(e.getKey()), doExperiment(e.getValue(), "ArrayMinHeap")))
+//                .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
+                .forEach(pair -> arrayMinHeap.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(Integer.valueOf(e.getKey()), doExperiment(e.getValue(), "BinaryTreeMinHeap")))
+//                .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
+                .forEach(pair -> binaryTreeMinHeap.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+
+        fileGroups.entrySet()
+                .stream()
+                .map(e -> new Pair<>(Integer.valueOf(e.getKey()), doExperiment(e.getValue(), "JavaAPI")))
+//                .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
+                .forEach(pair -> javaAPI.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+
 
         fileGroups.entrySet()
                 .stream()
                 .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "ArrayMinHeap")))
                 .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
-                .forEach(pair -> arrayMinHeap.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+                .forEach(p -> System.out.println(p.getKey() + " = " + p.getValue().toNanos()));
+
 
         fileGroups.entrySet()
                 .stream()
                 .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "BinaryTreeMinHeap")))
                 .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
-                .forEach(pair -> binaryTreeMinHeap.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+                .forEach(p -> System.out.println(p.getKey() + " = " + p.getValue().toNanos()));
 
         fileGroups.entrySet()
                 .stream()
-                .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "BinomialMinHeap")))
+                .map(e -> new Pair<>(e.getKey(), doExperiment(e.getValue(), "JavaAPI")))
                 .sorted(Comparator.comparingInt(p -> Integer.valueOf(p.getKey())))
-                .forEach(pair -> javaAPI.getData().add(new XYChart.Data<>(pair.getKey(), pair.getValue().toNanos())));
+                .forEach(p -> System.out.println(p.getKey() + " = " + p.getValue().toNanos()));
 
 
         Scene scene = new Scene(lineChart, 800, 600);
+        lineChart.setAxisSortingPolicy(LineChart.SortingPolicy.X_AXIS);
+        lineChart.setAnimated(true);
+        lineChart.setCreateSymbols(true);
         lineChart.getData().addAll(arrayMinHeap, binaryTreeMinHeap, javaAPI);
 
         stage.setScene(scene);
+
         stage.show();
     }
 
