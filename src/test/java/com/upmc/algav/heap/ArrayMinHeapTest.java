@@ -1,6 +1,5 @@
 package com.upmc.algav.heap;
 
-import com.upmc.algav.key.Key128;
 import org.junit.Test;
 
 import java.nio.file.Path;
@@ -18,7 +17,7 @@ public class ArrayMinHeapTest extends MinHeapTest {
 
     }
 
-    protected void checkMinHeapProperty(Heapable<Key128, Integer> minHeap) {
+    protected void checkMinHeapProperty(BinaryHeap<Integer> minHeap) {
         for (int i = 0; i < minHeap.elements().size(); i++) {
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.left(i))));
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.right(i))));
@@ -34,9 +33,9 @@ public class ArrayMinHeapTest extends MinHeapTest {
 
 //    @Test
 //    public void union() {
-//        List<Key128> otherList = Stream.of(32, 10, 40, 25, 60, 1, 4)
+//        List<IKey128> otherList = Stream.of(32, 10, 40, 25, 60, 1, 4)
 //                .map(String::valueOf)
-//                .map(Key128::new)
+//                .map(IKey128::new)
 //                .collect(Collectors.toList());
 //        ArrayMinHeap union = (ArrayMinHeap) minHeap.union(new ArrayMinHeap(otherList));
 //

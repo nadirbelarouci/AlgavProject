@@ -1,16 +1,18 @@
 package com.upmc.algav.experiment;
 
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.key.IKey128;
 
 import java.time.Duration;
-import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 
-public class BuildExperiment implements Experiment {
-    private Collection<Key128> keys;
-    private Consumer<Collection<Key128>> builder;
 
-    public BuildExperiment(Collection<Key128> keys, Consumer<Collection<Key128>> builder) {
+public class BuildExperiment implements Experiment {
+
+    private List<IKey128> keys;
+    private Consumer<List<IKey128>> builder;
+
+    public BuildExperiment(List<IKey128> keys, Consumer<List<IKey128>> builder) {
         this.keys = keys;
         this.builder = builder;
     }

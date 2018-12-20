@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,9 +43,5 @@ public class Key128Test {
         assertTrue(second.eq(first));
     }
 
-    @Test
-    public void test(){
-        System.out.println(        Arrays.toString(Arrays.asList(1,2,3,5,8,1,2,5,6,1,2,84).toArray())
-);
-    }
+
 }

@@ -31,4 +31,9 @@ public abstract class BinaryTree<T> implements IBinaryTree<T> {
         }
         return set;
     }
+
+    @Override
+    public String toString() {
+        return explode().toString();
+    }
 }

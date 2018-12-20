@@ -1,5 +1,6 @@
 package com.upmc.algav.heap;
 
+import com.upmc.algav.key.IKey128;
 import com.upmc.algav.key.Key128;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +23,9 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public abstract class MinHeapTest {
-    protected List<Key128> keys;
-    protected MinHeap<Key128> heap;
-    protected List<Key128> sortedKeys;
+    protected List<IKey128> keys;
+    protected MinHeap heap;
+    protected List<IKey128> sortedKeys;
 
     public MinHeapTest(Path path) throws IOException {
         super();
@@ -40,14 +41,17 @@ public abstract class MinHeapTest {
     public static Collection<Path> getPath() throws Exception {
         return Files.list(Paths.get(ArrayMinHeapTest.class.getResource("/cles_alea").toURI()))
                 .filter(f -> !f.toFile().isHidden())
-                .map(f -> f.normalize())
+                .filter(f-> !f.toFile().isDirectory())
                 .collect(Collectors.toList());
     }
 
     @Test
     public void deleteMin() {
-        sortedKeys.forEach(key -> assertEquals(key, heap.deleteMin()));
-        assertTrue(heap.empty());
+        sortedKeys.forEach(key -> {
+            assertEquals(key, heap.deleteMin());
+
+        });
+        assertTrue(heap.isEmpty());
         assertNull(heap.deleteMin());
     }
 }

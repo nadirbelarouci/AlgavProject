@@ -8,34 +8,33 @@
 
 package com.upmc.algav.heap;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import com.upmc.algav.key.IKey128;
+
+import java.util.*;
 
 /**
  * The BinomialMinHeap class represents a priority queue of generic keys.
  * It supports the usual insert and delete-the-minimum operations,
  * along with the merging of two heaps together.
  * It also supports methods for peeking at the minimum key,
- * testing if the priority queue is empty, and iterating through
+ * testing if the priority queue is isEmpty, and iterating through
  * the keys.
  * It is possible to build the priority queue using a Comparator.
  * If not, the natural order relation between the keys will be used.
  * <p>
  * This implementation uses a binomial heap.
- * The insert, delete-the-minimum, union, min-key
+ * The insert, delete-the-minimum, union, MIN-key
  * and size operations take logarithmic time.
- * The is-empty and constructor operations take constant time.
+ * The is-isEmpty and constructor operations take constant time.
  *
  * @author Tristan Claverie
  */
-public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
-    private final Comparator<T> comp;    //Comparator over the keys
+public class BinomialMinHeap implements MinHeap, Iterable<IKey128> {
+    private final Comparator<IKey128> comp;    //Comparator over the keys
     private Node head;                    //head of the list of roots
 
     /**
-     * Initializes an empty priority queue
+     * Initializes an isEmpty priority queue
      * Worst case is O(1)
      */
     public BinomialMinHeap() {
@@ -43,12 +42,12 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
     }
 
     /**
-     * Initializes an empty priority queue using the given Comparator
+     * Initializes an isEmpty priority queue using the given Comparator
      * Worst case is O(1)
      *
      * @param C a comparator over the keys
      */
-    public BinomialMinHeap(Comparator<T> C) {
+    public BinomialMinHeap(Comparator<IKey128> C) {
         comp = C;
     }
 
@@ -58,9 +57,9 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      *
      * @param a an array of keys
      */
-    public BinomialMinHeap(Collection<T> a) {
+    public BinomialMinHeap(Collection<IKey128> a) {
         comp = new MyComparator();
-        for (T k : a) insert(k);
+        for (IKey128 k : a) insert(k);
     }
 
     /**
@@ -70,16 +69,16 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      * @param C a comparator over the keys
      * @param a an array of keys
      */
-    public BinomialMinHeap(Comparator<T> C, T[] a) {
+    public BinomialMinHeap(Comparator<IKey128> C, IKey128[] a) {
         comp = C;
-        for (T k : a) insert(k);
+        for (IKey128 k : a) insert(k);
     }
 
     /**
-     * Whether the priority queue is empty
+     * Whether the priority queue is isEmpty
      * Worst case is O(1)
      *
-     * @return true if the priority queue is empty, false if not
+     * @return true if the priority queue is isEmpty, false if not
      */
     public boolean isEmpty() {
         return head == null;
@@ -104,17 +103,27 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
         return result;
     }
 
+    @Override
+    public Collection<IKey128> elements() {
+        Iterator<IKey128> it = iterator();
+        List<IKey128> elements = new ArrayList<>();
+        while (it.hasNext())
+            elements.add(it.next());
+
+        return elements;
+    }
+
     /**
-     * Puts a T in the heap
+     * Puts a IKey128 in the heap
      * Worst case is O(log(n))
      *
-     * @param key a T
+     * @param key a IKey128
      */
-    public void insert(T key) {
+    public void insert(IKey128 key) {
         Node x = new Node();
         x.key = key;
         x.order = 0;
-        BinomialMinHeap<T> H = new BinomialMinHeap<T>(); //The Comparator oh the H heap is not used
+        BinomialMinHeap H = new BinomialMinHeap(); //The Comparator oh the H heap is not used
         H.head = x;
         this.head = this.union(H).head;
     }
@@ -124,10 +133,10 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      * Worst case is O(log(n))
      *
      * @return the minimum key currently in the priority queue
-     * @throws java.util.NoSuchElementException if the priority queue is empty
+     * @throws java.util.NoSuchElementException if the priority queue is isEmpty
      */
-    public T minKey() {
-        if (isEmpty()) throw new NoSuchElementException("Priority queue is empty");
+    public IKey128 minKey() {
+        if (isEmpty()) throw new NoSuchElementException("Priority queue is isEmpty");
         Node min = head;
         Node current = head;
         while (current.sibling != null) {
@@ -142,10 +151,10 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      * Worst case is O(log(n))
      *
      * @return the minimum key
-     * @throws java.util.NoSuchElementException if the priority queue is empty
+     * @throws java.util.NoSuchElementException if the priority queue is isEmpty
      */
-    public T delMin() {
-        if (isEmpty()) throw new NoSuchElementException("Priority queue is empty");
+    public IKey128 deleteMin() {
+        if (isEmpty()) throw new NoSuchElementException("Priority queue is isEmpty");
         Node min = eraseMin();
         Node x = (min.child == null) ? min : min.child;
         if (min.child != null) {
@@ -158,7 +167,7 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
                 nextx = nextx.sibling;
             }
             x.sibling = prevx;
-            BinomialMinHeap<T> H = new BinomialMinHeap<T>();
+            BinomialMinHeap H = new BinomialMinHeap();
             H.head = x;
             head = union(H).head;
         }
@@ -170,11 +179,14 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      * This operation is destructive
      * Worst case is O(log(n))
      *
-     * @param heap a Binomial Heap to be merged with the current heap
+     * @param other a Binomial Heap to be merged with the current heap
      * @return the union of two heaps
      * @throws java.lang.IllegalArgumentException if the heap in parameter is null
      */
-    public BinomialMinHeap<T> union(BinomialMinHeap<T> heap) {
+    public BinomialMinHeap union(Heap<IKey128> other) {
+        if ((!other.getClass().equals(this.getClass())))
+            other = new BinomialMinHeap(other.elements());
+        BinomialMinHeap heap = (BinomialMinHeap) other;
         if (heap == null) throw new IllegalArgumentException("Cannot merge a Binomial Heap with null");
         this.head = merge(new Node(), this.head, heap.head).sibling;
         Node x = this.head;
@@ -206,7 +218,7 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      ************************************************/
 
     //Compares two keys
-    private boolean greater(T n, T m) {
+    private boolean greater(IKey128 n, IKey128 m) {
         if (n == null) return false;
         if (m == null) return true;
         return comp.compare(n, m) > 0;
@@ -259,7 +271,7 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      *
      * @return an Iterator over the keys in the priority queue in ascending order
      */
-    public Iterator<T> iterator() {
+    public Iterator<IKey128> iterator() {
         return new MyIterator();
     }
 
@@ -268,9 +280,9 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
      **************************/
 
     //default Comparator
-    private static class MyComparator<T extends Comparable<T>> implements Comparator<T> {
+    private static class MyComparator<IKey128 extends Comparable<IKey128>> implements Comparator<IKey128> {
         @Override
-        public int compare(T key1, T key2) {
+        public int compare(IKey128 key1, IKey128 key2) {
             return key1.compareTo(key2);
         }
     }
@@ -281,18 +293,18 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
 
     //Represents a Node of a Binomial Tree
     private class Node {
-        T key;                        //T contained by the Node
+        IKey128 key;                        //IKey128 contained by the Node
         int order;                        //The order of the Binomial Tree rooted by this Node
         Node child, sibling;            //child and sibling of this Node
     }
 
-    private class MyIterator implements Iterator<T> {
-        BinomialMinHeap<T> data;
+    private class MyIterator implements Iterator<IKey128> {
+        BinomialMinHeap data;
 
         //Constructor clones recursively the elements in the queue
         //It takes linear time
         public MyIterator() {
-            data = new BinomialMinHeap<T>(comp);
+            data = new BinomialMinHeap(comp);
             data.head = clone(head, null);
         }
 
@@ -309,9 +321,9 @@ public class BinomialMinHeap<T extends Comparable<T>> implements Iterable<T>{
             return !data.isEmpty();
         }
 
-        public T next() {
+        public IKey128 next() {
             if (!hasNext()) throw new NoSuchElementException();
-            return data.delMin();
+            return data.deleteMin();
         }
 
         public void remove() {

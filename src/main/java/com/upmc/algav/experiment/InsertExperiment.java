@@ -1,15 +1,15 @@
 package com.upmc.algav.experiment;
 
 import com.upmc.algav.heap.MinHeap;
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.key.IKey128;
 
 import java.time.Duration;
 
 public class InsertExperiment implements Experiment {
-    private Key128 key;
-    private MinHeap<Key128> heap;
+    private IKey128 key;
+    private MinHeap heap;
 
-    public InsertExperiment(MinHeap<Key128> heap, Key128 key) {
+    public InsertExperiment(MinHeap heap, IKey128 key) {
         this.key = key;
         this.heap = heap;
     }

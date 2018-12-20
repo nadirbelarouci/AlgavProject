@@ -1,5 +1,7 @@
 package com.upmc.algav.heap;
 
-public interface MinHeap<T extends Comparable<T>> extends Heap<T> {
-    T deleteMin();
+import com.upmc.algav.key.IKey128;
+
+public interface MinHeap extends Heap<IKey128> {
+    IKey128 deleteMin();
 }

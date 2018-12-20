@@ -4,18 +4,41 @@ import com.upmc.algav.heap.ArrayMinHeap;
 import com.upmc.algav.heap.BinaryTreeMinHeap;
 import com.upmc.algav.heap.BinomialMinHeap;
 import com.upmc.algav.heap.MinHeap;
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.key.IKey128;
 
 import java.time.Duration;
-import java.util.Collection;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.function.Consumer;
 
 public class ExperimentalStudy {
+    @SuppressWarnings("unchecked")
+    public static Duration doExperiment(String experiment, Object... args) {
+        switch (experiment) {
+            case "build":
+                if (args.length != 2)
+                    throw new IllegalArgumentException("Args for " + experiment + " are : keys:List<Keys>, heapType:String");
+                return doBuildExperiment((List<IKey128>) args[0], (String) args[1]);
+            case "insert":
+                if (args.length != 2)
+                    throw new IllegalArgumentException("Args for " + experiment + " are : heap:MinHeap, key:IKey128");
+                return doInsertExpirement((MinHeap) args[0], (IKey128) args[1]);
+            case "union":
+                if (args.length != 2)
+                    throw new IllegalArgumentException("Args for " + experiment + " are : first:MinHeap, second:MinHeap");
+                return doUnionExpirement((MinHeap) args[0], (MinHeap) args[1]);
+            case "deleteMin":
+                if (args.length != 1)
+                    throw new IllegalArgumentException("Args for " + experiment + " are : heap:MinHeap");
+                return doDeleteMinExpirement((MinHeap) args[0]);
+            default:
+                throw new IllegalArgumentException((experiment + " is not a valid experiment!"));
 
+        }
+    }
 
-    public static Duration doBuildExperiment(Collection<Key128> data, String heap) {
-        Consumer<Collection<Key128>> builder = null;
+    private static Duration doBuildExperiment(List<IKey128> data, String heap) {
+        Consumer<List<IKey128>> builder = null;
         switch (heap) {
             case "ArrayMinHeap":
                 builder = ArrayMinHeap::new;
@@ -36,7 +59,7 @@ public class ExperimentalStudy {
         return new BuildExperiment(data, builder).execute();
     }
 
-    public static Duration doInsertExpirement(MinHeap<Key128> heap, Key128 key128) {
+    private static Duration doInsertExpirement(MinHeap heap, IKey128 key128) {
         if (key128 == null)
             throw new IllegalArgumentException("key must not be null");
 
@@ -46,7 +69,7 @@ public class ExperimentalStudy {
         return new InsertExperiment(heap, key128).execute();
     }
 
-    public static Duration doUnionExpirement(MinHeap<Key128> first, MinHeap<Key128> second) {
+    private static Duration doUnionExpirement(MinHeap first, MinHeap second) {
         if (first == null || second == null)
             throw new IllegalArgumentException("heap must not be null");
 
@@ -54,7 +77,7 @@ public class ExperimentalStudy {
         return new UnionExperiment(first, second).execute();
     }
 
-    public static Duration doDeleteMinExpirement(MinHeap<Key128> heap) {
+    private static Duration doDeleteMinExpirement(MinHeap heap) {
 
         if (heap == null)
             throw new IllegalArgumentException("heap must not be null");
