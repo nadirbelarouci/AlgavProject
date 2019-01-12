@@ -5,16 +5,16 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface BinaryHeap<Index> {
-    default void heapifyDown(Index start, Function<Index, Index> best) {
-        Index bestVaue = best.apply(start);
+public interface BinaryHeap<Node> {
+    default void heapifyDown(Node start, Function<Node, Node> best) {
+        Node bestVaue = best.apply(start);
         if (bestVaue != start) {
             swap(start, bestVaue);
             heapifyDown(bestVaue, best);
         }
     }
 
-    default void heapifyUp(Index start, Predicate<Index> notRoot, BiPredicate<IKey128, IKey128> best) {
+    default void heapifyUp(Node start, Predicate<Node> notRoot, BiPredicate<IKey128, IKey128> best) {
         IKey128 current = get(start);
         IKey128 parent = get(parent(start));
         if (notRoot.test(start) && best.test(current, parent)) {
@@ -35,42 +35,42 @@ public interface BinaryHeap<Index> {
         return delete(MIN());
     }
 
-    default IKey128 delete(Function<Index, Index> best) {
+    default IKey128 delete(Function<Node, Node> best) {
         IKey128 min = get(root());
         swapAndRemoveLast();
         heapifyDown(root(), best);
         return min;
     }
 
-    default Index min(Index i, Index j) {
+    default Node min(Node i, Node j) {
         return get(i).less(get(j)) ? i : j;
     }
 
-    default Function<Index, Index> MIN() {
+    default Function<Node, Node> MIN() {
         return i -> min(min(i, left(i)), right(i));
     }
 
-    Index left(Index index);
+    Node left(Node node);
 
-    Index right(Index index);
+    Node right(Node node);
 
-    Index parent(Index index);
+    Node parent(Node node);
 
-    Index root();
+    Node root();
 
-    Index last();
+    Node last();
 
     boolean empty();
 
     int size();
 
-    IKey128 get(Index index);
+    IKey128 get(Node node);
 
-    void swap(Index first, Index second);
+    void swap(Node first, Node second);
 
     void swapAndRemoveLast();
 
-    void remove(Index i);
+    void remove(Node i);
 
     Collection<IKey128> elements();
 

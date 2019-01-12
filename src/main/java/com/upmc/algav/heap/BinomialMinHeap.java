@@ -9,8 +9,8 @@
 package com.upmc.algav.heap;
 
 import com.upmc.algav.interfaces.Heap;
-import com.upmc.algav.interfaces.MinHeap;
 import com.upmc.algav.interfaces.IKey128;
+import com.upmc.algav.interfaces.MinHeap;
 
 import java.util.*;
 
@@ -245,7 +245,9 @@ public class BinomialMinHeap implements MinHeap, Iterable<IKey128> {
             }
             current = current.sibling;
         }
-        previous.sibling = min.sibling;
+        if (previous != null)
+            previous.sibling = min.sibling;
+
         if (min == head) head = min.sibling;
         return min;
     }

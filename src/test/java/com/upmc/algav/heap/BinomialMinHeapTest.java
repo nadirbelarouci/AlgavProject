@@ -10,18 +10,18 @@ import java.util.PriorityQueue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class PriorityQueueTest extends MinHeapTest {
-    private PriorityQueue<IKey128> heap;
+public class BinomialMinHeapTest extends MinHeapTest {
+    private BinomialMinHeap heap;
 
-    public PriorityQueueTest(Path path) throws IOException {
+    public BinomialMinHeapTest(Path path) throws IOException {
         super(path);
-        heap = new PriorityQueue<>(keys);
+        heap = new BinomialMinHeap(keys);
     }
 
     @Override
     @Test
     public void deleteMin() {
-        sortedKeys.forEach(key -> assertEquals(key, heap.poll()));
+        sortedKeys.forEach(key -> assertEquals(key, heap.deleteMin()));
         assertTrue(heap.isEmpty());
     }
 

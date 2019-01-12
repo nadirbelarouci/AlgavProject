@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ArrayMinHeapTest.class,
         BinaryTreeMinHeapTest.class,
-        PriorityQueueTest.class
+        BinomialMinHeapTest.class
 })
 
 public class MinHeapSuiteTestCase {

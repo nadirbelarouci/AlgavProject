@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.upmc.algav.interfaces</OriginalElement>
+  <nodes>
+    <node x="34.0" y="160.0">com.upmc.algav.interfaces.IBinaryTree</node>
+    <node x="0.0" y="240.0">com.upmc.algav.interfaces.IRedBlackBST</node>
+    <node x="184.4090909090909" y="240.0">com.upmc.algav.heap.BinaryTreeMinHeap.BinaryTreeMinHeapImpl</node>
+    <node x="418.6590909090909" y="240.0">com.upmc.algav.heap.ArrayMinHeap.ArrayMinHeapImpl</node>
+    <node x="509.0" y="0.0">com.upmc.algav.interfaces.Heap</node>
+    <node x="668.0" y="240.0">com.upmc.algav.heap.BinomialMinHeap.Node</node>
+    <node x="349.0" y="160.0">com.upmc.algav.interfaces.BinaryHeap</node>
+    <node x="168.0" y="160.0">com.upmc.algav.heap.BinaryTreeMinHeap</node>
+    <node x="633.0" y="160.0">com.upmc.algav.heap.BinomialMinHeap</node>
+    <node x="196.75" y="315.0">com.upmc.algav.interfaces.IBinaryTreeNode</node>
+    <node x="483.0" y="160.0">com.upmc.algav.heap.ArrayMinHeap</node>
+    <node x="498.5" y="80.0">com.upmc.algav.interfaces.MinHeap</node>
+    <node x="147.90000000000003" y="475.0">com.upmc.algav.heap.BinaryTreeHeapNode</node>
+    <node x="0.0" y="395.0">com.upmc.algav.interfaces.IBinaryTreeHeapNode</node>
+    <node x="194.0" y="395.0">com.upmc.algav.interfaces.IRedBlackBSTNode</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.upmc.algav.interfaces.IRedBlackBST" target="com.upmc.algav.interfaces.IBinaryTree">
+      <point x="0.0" y="-15.0" />
+      <point x="-28.5" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeMinHeap" target="com.upmc.algav.interfaces.MinHeap">
+      <point x="0.0" y="-15.0" />
+      <point x="248.5" y="135.0" />
+      <point x="515.0" y="135.0" />
+      <point x="-33.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeMinHeap.BinaryTreeMinHeapImpl" target="com.upmc.algav.interfaces.IBinaryTree">
+      <point x="-62.0" y="-15.0" />
+      <point x="215.4090909090909" y="215.0" />
+      <point x="119.5" y="215.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeHeapNode" target="com.upmc.algav.interfaces.IBinaryTreeHeapNode">
+      <point x="-42.50000000000003" y="-15.0" />
+      <point x="190.4" y="450.0" />
+      <point x="87.0" y="450.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinomialMinHeap.Node" target="com.upmc.algav.heap.BinomialMinHeap">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.ArrayMinHeap" target="com.upmc.algav.interfaces.MinHeap">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.ArrayMinHeap.ArrayMinHeapImpl" target="com.upmc.algav.interfaces.BinaryHeap">
+      <point x="-38.75" y="-15.0" />
+      <point x="457.4090909090909" y="215.0" />
+      <point x="434.5" y="215.0" />
+      <point x="28.5" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeHeapNode" target="com.upmc.algav.interfaces.IBinaryTreeNode">
+      <point x="42.49999999999997" y="-15.0" />
+      <point x="275.4" y="450.0" />
+      <point x="359.5" y="450.0" />
+      <point x="359.5" y="370.0" />
+      <point x="316.75" y="370.0" />
+      <point x="48.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeMinHeap.BinaryTreeMinHeapImpl" target="com.upmc.algav.heap.BinaryTreeMinHeap">
+      <point x="0.0" y="-15.0" />
+      <point x="277.4090909090909" y="215.0" />
+      <point x="248.5" y="215.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinomialMinHeap" target="com.upmc.algav.interfaces.MinHeap">
+      <point x="0.0" y="-15.0" />
+      <point x="707.0" y="135.0" />
+      <point x="581.0" y="135.0" />
+      <point x="33.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.interfaces.IRedBlackBSTNode" target="com.upmc.algav.interfaces.IBinaryTreeNode">
+      <point x="0.0" y="-15.0" />
+      <point x="271.5" y="370.0" />
+      <point x="268.75" y="370.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.interfaces.IBinaryTreeHeapNode" target="com.upmc.algav.interfaces.IBinaryTreeNode">
+      <point x="0.0" y="-15.0" />
+      <point x="87.0" y="370.0" />
+      <point x="220.75" y="370.0" />
+      <point x="-48.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.BinaryTreeMinHeap.BinaryTreeMinHeapImpl" target="com.upmc.algav.interfaces.BinaryHeap">
+      <point x="62.0" y="-15.0" />
+      <point x="339.4090909090909" y="215.0" />
+      <point x="377.5" y="215.0" />
+      <point x="-28.5" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.heap.ArrayMinHeap.ArrayMinHeapImpl" target="com.upmc.algav.heap.ArrayMinHeap">
+      <point x="38.75" y="-15.0" />
+      <point x="534.9090909090909" y="215.0" />
+      <point x="548.0" y="215.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="com.upmc.algav.interfaces.MinHeap" target="com.upmc.algav.interfaces.Heap">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="390.5" y="252.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
