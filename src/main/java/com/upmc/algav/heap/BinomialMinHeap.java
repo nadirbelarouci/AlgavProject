@@ -94,7 +94,8 @@ public class BinomialMinHeap implements MinHeap, Iterable<IKey128> {
      * @throws java.lang.ArithmeticException if there are more than 2^63-1 elements in the queue
      */
     public int size() {
-        int result = 0, tmp;
+        int result = 0;
+        int tmp;
         for (Node node = head; node != null; node = node.sibling) {
             if (node.order > 30) {
                 throw new ArithmeticException("The number of elements cannot be evaluated, but the priority queue is still valid.");

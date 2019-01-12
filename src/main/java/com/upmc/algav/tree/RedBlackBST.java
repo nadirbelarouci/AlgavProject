@@ -1,9 +1,9 @@
 package com.upmc.algav.tree;
 
 import com.upmc.algav.interfaces.IBinaryTreeNode;
+import com.upmc.algav.interfaces.IKey128;
 import com.upmc.algav.interfaces.IRedBlackBST;
 import com.upmc.algav.interfaces.IRedBlackBSTNode;
-import com.upmc.algav.interfaces.IKey128;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,12 +15,6 @@ import static com.upmc.algav.interfaces.IRedBlackBSTNode.Color.RED;
 public class RedBlackBST<T extends IKey128> extends BinaryTree<T> implements IRedBlackBST<T> {
 
     private int size;
-
-    @SuppressWarnings("unchecked")
-    public RedBlackBST() {
-
-
-    }
 
     @Override
     public IRedBlackBSTNode<T> search(T key) {
@@ -54,7 +48,7 @@ public class RedBlackBST<T extends IKey128> extends BinaryTree<T> implements IRe
         IRedBlackBSTNode<T> parent;
 
         if (z.key() == null)
-            throw new NullPointerException();
+            throw new IllegalArgumentException("Argument key is Null");
 
         do {
             parent = t;
