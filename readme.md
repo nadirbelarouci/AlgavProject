@@ -1,5 +1,7 @@
 # Advanced Data Structures 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/11b654fe0f1a47d5945ef70872498c02)](https://app.codacy.com/app/nadirbelarouci/AlgavProject?utm_source=github.com&utm_medium=referral&utm_content=nadirbelarouci/AlgavProject&utm_campaign=Badge_Grade_Dashboard)
+
 This project has been a part of the [Algav](https://www-master.ufr-info-p6.jussieu.fr/2018/ALGAV) class for the [Sorbonne University: Pierre and Marie Curie](https://www.sorbonne-universite.fr/) students. 
 
 The goal of the project is to graphically visualize the execution time of the algorithms and data structures introduced in the class on some real data.
