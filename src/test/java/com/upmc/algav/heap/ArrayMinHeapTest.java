@@ -1,21 +1,23 @@
 package com.upmc.algav.heap;
 
-import com.upmc.algav.key.Key128;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.nio.file.Path;
 
 import static org.junit.Assert.assertTrue;
 
-public class ArrayMinHeapTest {
 
-    private ArrayMinHeap minHeap;
+public class ArrayMinHeapTest extends MinHeapTest {
 
-    private static void checkMinHeapProperty(Heapable<Key128, Integer> minHeap) {
+
+    public ArrayMinHeapTest(Path path) throws Exception {
+        super(path);
+        heap = new ArrayMinHeap(keys);
+
+
+    }
+
+    protected void checkMinHeapProperty(BinaryHeap<Integer> minHeap) {
         for (int i = 0; i < minHeap.elements().size(); i++) {
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.left(i))));
             assertTrue(minHeap.get(i).less(minHeap.get(minHeap.right(i))));
@@ -23,38 +25,22 @@ public class ArrayMinHeapTest {
 
     }
 
-    @Before
-    public void setUp() {
-
-        minHeap = new ArrayMinHeap(MinHeapTest.list);
-    }
-
-    @After
-    public void tearDown() {
-
-        minHeap = null;
-    }
-
-    @Test
-    public void deleteMin() {
-        MinHeapTest.deleteMinTest(minHeap);
-    }
 
     @Test
     public void build() {
-        checkMinHeapProperty(minHeap.getArrayMinHeap());
+        checkMinHeapProperty(((ArrayMinHeap) heap).getArrayMinHeap());
     }
 
-    @Test
-    public void union() {
-        List<Key128> otherList = Stream.of(32, 10, 40, 25, 60, 1, 4)
-                .map(String::valueOf)
-                .map(Key128::new)
-                .collect(Collectors.toList());
-        ArrayMinHeap union = (ArrayMinHeap) minHeap.union(new ArrayMinHeap(otherList));
-
-        checkMinHeapProperty(union.getArrayMinHeap());
-
-
-    }
+//    @Test
+//    public void union() {
+//        List<IKey128> otherList = Stream.of(32, 10, 40, 25, 60, 1, 4)
+//                .map(String::valueOf)
+//                .map(IKey128::new)
+//                .collect(Collectors.toList());
+//        ArrayMinHeap union = (ArrayMinHeap) minHeap.union(new ArrayMinHeap(otherList));
+//
+//        checkMinHeapProperty(union.getArrayMinHeap());
+//
+//
+//    }
 }

@@ -48,7 +48,7 @@ class BinaryTreeHeapNode<T> extends BinaryTreeNode<T> implements IBinaryTreeHeap
         }
 
 
-        public IBinaryTreeNode<T> createNode() {
+        public IBinaryTreeHeapNode<T> createNode() {
             return new BinaryTreeHeapNode<>(key, left, right, parent, index);
         }
     }

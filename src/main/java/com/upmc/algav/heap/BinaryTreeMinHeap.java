@@ -2,88 +2,86 @@ package com.upmc.algav.heap;
 
 
 import com.upmc.algav.heap.BinaryTreeHeapNode.NodeBuilder;
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.key.IKey128;
 import com.upmc.algav.tree.BinaryTree;
 import com.upmc.algav.tree.IBinaryTreeNode;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
-public class BinaryTreeMinHeap implements MinHeap<Key128> {
+public class BinaryTreeMinHeap implements MinHeap {
 
-    private BinaryTreeMinHeapImpl<Key128> tree;
+    private BinaryTreeMinHeapImpl tree = new BinaryTreeMinHeapImpl();
 
-    public BinaryTreeMinHeap(Collection<Key128> values) {
-        tree = new BinaryTreeMinHeapImpl<>();
+    public BinaryTreeMinHeap(List<IKey128> values) {
         build(values);
     }
 
+    @Override
+    public IKey128 deleteMin() {
+
+        return tree.deleteMin();
+    }
+
 
     @Override
-    public Key128 deleteMin() {
-        if (empty())
-            return null;
-        if (tree.size == 1) {
-            Key128 key128 = tree.root().key();
-            tree.size--;
-            tree.root(null);
-            return key128;
+    public void insert(IKey128 key) {
+        tree.insert(key, IKey128::less);
+    }
+
+    @Override
+    public void build(List<IKey128> elements) {
+        List<IBinaryTreeHeapNode<IKey128>> nodes = tree.addAll(elements);
+        for (int i = elements.size() / 2; i >= 0; i--) {
+            tree.heapifyDown(nodes.get(i), tree.MIN());
         }
-        return Heapable.deleteMin(tree,
-                () -> {
-                    tree.swap(tree.root(), tree.last);
-                    tree.detachLast();
-                });
-    }
-
-
-    @Override
-    public void insert(Key128 key) {
-        tree.insert(key, Key128::less);
     }
 
     @Override
-    public Collection<Key128> elements() {
+    public Collection<IKey128> elements() {
         return tree.elements();
     }
 
     @Override
-    public Heap<Key128> union(Heap<Key128> other) {
-        List<Key128> all = new ArrayList<>();
+    public BinaryTreeMinHeap union(Heap<IKey128> other) {
+        List<IKey128> all = new ArrayList<>();
         all.addAll(elements());
         all.addAll(other.elements());
         return new BinaryTreeMinHeap(all);
     }
 
     @Override
-    public boolean empty() {
-        return tree.root() == null;
+    public boolean isEmpty() {
+        return tree.empty();
+    }
+
+    @Override
+    public int size() {
+        return tree.size();
     }
 
     @Override
     public String toString() {
         return elements()
                 .stream()
-                .map(Key128::toString)
+                .map(IKey128::toString)
                 .collect(Collectors.joining(", "));
     }
 
-     BinaryTreeMinHeapImpl<Key128> getTree() {
+    BinaryTreeMinHeapImpl getTree() {
         return tree;
     }
 
-     static class BinaryTreeMinHeapImpl<T extends Comparable<T>>
-            extends BinaryTree<T> implements Heapable<T, IBinaryTreeHeapNode<T>> {
+    static class BinaryTreeMinHeapImpl
+            extends BinaryTree<IKey128> implements BinaryHeap<IBinaryTreeHeapNode<IKey128>> {
 
-        private IBinaryTreeHeapNode<T> nextToInsert;
-        private IBinaryTreeHeapNode<T> last;
+        private IBinaryTreeHeapNode<IKey128> nextToInsert;
+        private IBinaryTreeHeapNode<IKey128> last;
         private int size;
 
-        private static <T> BinaryTreeHeapNode<T> get(IBinaryTreeNode<T> root, int index) {
+        private BinaryTreeHeapNode<IKey128> getNode(int index) {
+            IBinaryTreeNode<IKey128> p = root();
             Stack<Integer> path = new Stack<>();
             while (index != 0) {
                 path.push(index);
@@ -92,56 +90,56 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
 
             while (!path.empty()) {
                 int i = path.pop();
-                root = i % 2 == 0 ? root.right() : root.left();
+                p = i % 2 == 0 ? p.right() : p.left();
             }
-            return (BinaryTreeHeapNode<T>) root;
+            return (BinaryTreeHeapNode<IKey128>) p;
         }
 
         @Override
-        public T get(IBinaryTreeHeapNode<T> x) {
+        public IKey128 get(IBinaryTreeHeapNode<IKey128> x) {
             if (x == null)
                 return null;
             return x.key();
         }
 
         @Override
-        public void swap(IBinaryTreeHeapNode<T> first, IBinaryTreeHeapNode<T> second) {
-            T temp = first.key();
+        public void swap(IBinaryTreeHeapNode<IKey128> first, IBinaryTreeHeapNode<IKey128> second) {
+            IKey128 temp = first.key();
             first.key(second.key());
             second.key(temp);
         }
 
         @Override
-        public IBinaryTreeHeapNode<T> left(IBinaryTreeHeapNode<T> x) {
-            return (IBinaryTreeHeapNode<T>) x.left();
+        public IBinaryTreeHeapNode<IKey128> left(IBinaryTreeHeapNode<IKey128> x) {
+            return (IBinaryTreeHeapNode<IKey128>) x.left();
         }
 
         @Override
-        public IBinaryTreeHeapNode<T> right(IBinaryTreeHeapNode<T> x) {
-            return (IBinaryTreeHeapNode<T>) x.right();
+        public IBinaryTreeHeapNode<IKey128> right(IBinaryTreeHeapNode<IKey128> x) {
+            return (IBinaryTreeHeapNode<IKey128>) x.right();
         }
 
         @Override
-        public IBinaryTreeHeapNode<T> parent(IBinaryTreeHeapNode<T> x) {
-            return (IBinaryTreeHeapNode<T>) x.parent();
+        public IBinaryTreeHeapNode<IKey128> parent(IBinaryTreeHeapNode<IKey128> x) {
+            return (IBinaryTreeHeapNode<IKey128>) x.parent();
         }
 
         @Override
-        public IBinaryTreeHeapNode<T> last() {
+        public IBinaryTreeHeapNode<IKey128> last() {
             return last;
         }
 
         @Override
-        public IBinaryTreeHeapNode<T> root() {
-            return (IBinaryTreeHeapNode<T>) super.root();
+        public IBinaryTreeHeapNode<IKey128> root() {
+            return (IBinaryTreeHeapNode<IKey128>) super.root();
         }
 
         @Override
-        public void insert(IBinaryTreeNode<T> node) {
+        public void insert(IBinaryTreeNode<IKey128> node) {
 
         }
 
-        public IBinaryTreeHeapNode<T> insert(T key) {
+        private IBinaryTreeHeapNode<IKey128> insert(IKey128 key) {
             if (nextToInsert.left() == null) {
                 nextToInsert.left(new NodeBuilder<>(key, nextToInsert.index() * 2 + 1)
                         .setParent(nextToInsert)
@@ -151,36 +149,90 @@ public class BinaryTreeMinHeap implements MinHeap<Key128> {
                 nextToInsert.right(new NodeBuilder<>(key, nextToInsert.index() * 2 + 2)
                         .setParent(nextToInsert)
                         .createNode());
-                return get(root(), nextToInsert.index() + 1);
+                return getNode(nextToInsert.index() + 1);
             }
         }
 
-        public void insert(T key, BiPredicate<T, T> compare) {
+        private void insert(IKey128 key, BiPredicate<IKey128, IKey128> compare) {
             if (root() == null) {
                 root(new NodeBuilder<>(key, 0).createNode());
                 nextToInsert = last = root();
             } else {
-                IBinaryTreeHeapNode<T> temp = insert(key);
-                last = (IBinaryTreeHeapNode<T>) (nextToInsert == temp ? nextToInsert.left() :
+                IBinaryTreeHeapNode<IKey128> temp = insert(key);
+                last = (IBinaryTreeHeapNode<IKey128>) (nextToInsert == temp ? nextToInsert.left() :
                         nextToInsert.right());
                 nextToInsert = temp;
             }
             size++;
-            Heapable.heapifyUp(this, last,
-                    k -> k != root(), compare);
+            heapifyUp(last, k -> k != root(), compare);
 
         }
 
-        private void detachLast() {
-            if (last.detach()) {
-                last = get(root(), last.index() - 1);
-                size--;
-            }
+
+        @Override
+        public Collection<IKey128> elements() {
+            return explode();
         }
 
         @Override
-        public Collection<T> elements() {
-            return explode();
+        public void swapAndRemoveLast() {
+            swap(root(), last);
+            nextToInsert = parent(last);
+            if (last.detach()) {
+                last = getNode(last.index() - 1);
+                size--;
+            } else {
+                root(null);
+            }
+        }
+
+        private List<IBinaryTreeHeapNode<IKey128>> addAll(List<IKey128> elements) {
+
+            List<IBinaryTreeHeapNode<IKey128>> nodes = new ArrayList<>();
+            ListIterator<IKey128> it = elements.listIterator();
+            while (it.hasNext()) {
+                IBinaryTreeHeapNode<IKey128> node = createNode(it);
+                if (node.index() == 0) {
+                    root(node);
+                } else {
+                    IBinaryTreeHeapNode<IKey128> parent = nodes.get((node.index() - 1) / 2);
+                    if (node.index() % 2 == 0) {
+                        parent.right(node);
+                    } else {
+                        parent.left(node);
+                    }
+                    node.parent(parent);
+                }
+                nodes.add(node);
+            }
+            last = nodes.get(elements.size() - 1);
+            size = nodes.size();
+            return nodes;
+        }
+
+        private IBinaryTreeHeapNode<IKey128> createNode(ListIterator<IKey128> it) {
+
+            int i = it.nextIndex();
+            IKey128 e = it.next();
+            return new NodeBuilder<>(e, i).createNode();
+        }
+
+        @Override
+        public boolean empty() {
+            return size == 0;
+        }
+
+        @Override
+        public int size() {
+            return size;
+        }
+
+        @Override
+        public void remove(IBinaryTreeHeapNode<IKey128> i) {
+            if (!i.detach())
+                root(null);
+            size--;
+
         }
     }
 

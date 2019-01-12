@@ -1,19 +1,22 @@
 package com.upmc.algav.heap;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface Heap<T> {
 
-    boolean empty();
+    boolean isEmpty();
 
     Collection<T> elements();
 
     void insert(T key);
 
-    default void build(Collection<T> elements) {
+    default void build(List<T> elements) {
         elements.forEach(this::insert);
     }
 
     Heap<T> union(Heap<T> other);
+
+    int size();
 
 }

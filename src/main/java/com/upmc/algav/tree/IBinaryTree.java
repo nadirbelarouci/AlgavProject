@@ -10,6 +10,7 @@ public interface IBinaryTree<T> {
 
     void insert(IBinaryTreeNode<T> node);
 
+
     Collection<T> explode();
 
 }
