@@ -2,9 +2,9 @@ package com.upmc.algav.heap;
 
 
 import com.upmc.algav.heap.BinaryTreeHeapNode.NodeBuilder;
-import com.upmc.algav.key.IKey128;
+import com.upmc.algav.interfaces.*;
+import com.upmc.algav.interfaces.IKey128;
 import com.upmc.algav.tree.BinaryTree;
-import com.upmc.algav.tree.IBinaryTreeNode;
 
 import java.util.*;
 import java.util.function.BiPredicate;

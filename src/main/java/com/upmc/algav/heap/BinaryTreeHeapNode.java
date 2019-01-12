@@ -1,7 +1,8 @@
 package com.upmc.algav.heap;
 
+import com.upmc.algav.interfaces.IBinaryTreeHeapNode;
 import com.upmc.algav.tree.BinaryTreeNode;
-import com.upmc.algav.tree.IBinaryTreeNode;
+import com.upmc.algav.interfaces.IBinaryTreeNode;
 
 class BinaryTreeHeapNode<T> extends BinaryTreeNode<T> implements IBinaryTreeHeapNode<T> {
 

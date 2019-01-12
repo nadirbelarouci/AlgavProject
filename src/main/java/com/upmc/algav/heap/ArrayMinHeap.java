@@ -1,6 +1,9 @@
 package com.upmc.algav.heap;
 
-import com.upmc.algav.key.IKey128;
+import com.upmc.algav.interfaces.BinaryHeap;
+import com.upmc.algav.interfaces.Heap;
+import com.upmc.algav.interfaces.MinHeap;
+import com.upmc.algav.interfaces.IKey128;
 
 import java.util.ArrayList;
 import java.util.Collection;

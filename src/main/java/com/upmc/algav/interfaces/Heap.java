@@ -1,4 +1,4 @@
-package com.upmc.algav.heap;
+package com.upmc.algav.interfaces;
 
 import java.util.Collection;
 import java.util.List;

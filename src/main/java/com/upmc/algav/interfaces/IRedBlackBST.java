@@ -1,4 +1,6 @@
-package com.upmc.algav.tree;
+package com.upmc.algav.interfaces;
+
+import com.upmc.algav.tree.RedBlackBSTNode;
 
 public interface IRedBlackBST<T> extends IBinaryTree<T> {
     IRedBlackBSTNode<T> search(T key);

@@ -1,6 +1,8 @@
 package com.upmc.algav.heap;
 
-import com.upmc.algav.key.IKey128;
+import com.upmc.algav.interfaces.BinaryHeap;
+import com.upmc.algav.interfaces.IBinaryTreeHeapNode;
+import com.upmc.algav.interfaces.IKey128;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -1,6 +1,9 @@
 package com.upmc.algav.tree;
 
 
+import com.upmc.algav.interfaces.IBinaryTree;
+import com.upmc.algav.interfaces.IBinaryTreeNode;
+
 import java.util.*;
 
 public abstract class BinaryTree<T> implements IBinaryTree<T> {

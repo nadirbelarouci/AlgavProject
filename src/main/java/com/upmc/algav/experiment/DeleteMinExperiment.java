@@ -1,6 +1,6 @@
 package com.upmc.algav.experiment;
 
-import com.upmc.algav.heap.MinHeap;
+import com.upmc.algav.interfaces.MinHeap;
 
 import java.time.Duration;
 

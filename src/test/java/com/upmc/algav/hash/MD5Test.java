@@ -1,5 +1,6 @@
 package com.upmc.algav.hash;
 
+import com.upmc.algav.experiment.MD5;
 import org.junit.Test;
 
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.upmc.algav.key;
+package com.upmc.algav.interfaces;
 
 public interface IKey128 extends Comparable<IKey128> {
     default boolean less(IKey128 other) {

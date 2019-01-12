@@ -1,4 +1,4 @@
-package com.upmc.algav.tree;
+package com.upmc.algav.interfaces;
 
 public interface IBinaryTreeNode<T> {
     void key(T key);

@@ -1,6 +1,6 @@
 package com.upmc.algav;
 
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.experiment.Key128;
 import org.junit.Test;
 
 import java.io.IOException;

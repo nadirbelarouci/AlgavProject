@@ -1,7 +1,8 @@
 package com.upmc.algav.heap;
 
-import com.upmc.algav.key.IKey128;
-import com.upmc.algav.key.Key128;
+import com.upmc.algav.interfaces.MinHeap;
+import com.upmc.algav.interfaces.IKey128;
+import com.upmc.algav.experiment.Key128;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

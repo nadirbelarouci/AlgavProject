@@ -1,5 +1,6 @@
 package com.upmc.algav.heap;
 
+import com.upmc.algav.interfaces.BinaryHeap;
 import org.junit.Test;
 
 import java.nio.file.Path;

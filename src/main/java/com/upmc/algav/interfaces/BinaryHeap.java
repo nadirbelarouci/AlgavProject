@@ -1,13 +1,11 @@
-package com.upmc.algav.heap;
-
-import com.upmc.algav.key.IKey128;
+package com.upmc.algav.interfaces;
 
 import java.util.Collection;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-interface BinaryHeap<Index> {
+public interface BinaryHeap<Index> {
     default void heapifyDown(Index start, Function<Index, Index> best) {
         Index bestVaue = best.apply(start);
         if (bestVaue != start) {

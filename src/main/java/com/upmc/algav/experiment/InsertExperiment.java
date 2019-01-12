@@ -1,7 +1,7 @@
 package com.upmc.algav.experiment;
 
-import com.upmc.algav.heap.MinHeap;
-import com.upmc.algav.key.IKey128;
+import com.upmc.algav.interfaces.MinHeap;
+import com.upmc.algav.interfaces.IKey128;
 
 import java.time.Duration;
 

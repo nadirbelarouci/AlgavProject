@@ -1,6 +1,4 @@
-package com.upmc.algav.heap;
-
-import com.upmc.algav.key.IKey128;
+package com.upmc.algav.interfaces;
 
 public interface MinHeap extends Heap<IKey128> {
     IKey128 deleteMin();

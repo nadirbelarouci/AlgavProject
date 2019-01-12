@@ -1,10 +1,10 @@
-package com.upmc.algav.tree;
+package com.upmc.algav.interfaces;
 
 import java.io.IOException;
 import java.io.PrintStream;
 
 
-interface IRedBlackBSTNode<T> extends IBinaryTreeNode<T> {
+public interface IRedBlackBSTNode<T> extends IBinaryTreeNode<T> {
     Color color();
 
     void color(Color color);

@@ -1,4 +1,4 @@
-package com.upmc.algav.hash;
+package com.upmc.algav.experiment;
 
 public class MD5 {
 

@@ -1,5 +1,7 @@
 package com.upmc.algav.tree;
 
+import com.upmc.algav.interfaces.IBinaryTreeNode;
+
 public class BinaryTreeNode<T> implements IBinaryTreeNode<T> {
     private T key;
     private IBinaryTreeNode<T> left;

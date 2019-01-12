@@ -1,5 +1,8 @@
 package com.upmc.algav.tree;
 
+import com.upmc.algav.interfaces.IBinaryTreeNode;
+import com.upmc.algav.interfaces.IRedBlackBSTNode;
+
 public class RedBlackBSTNode<T> extends BinaryTreeNode<T> implements IRedBlackBSTNode<T> {
     private Color color;
 
